@@ -50,13 +50,13 @@ export const TournamentBracket = () => {
     const nodes: Node[] = [];
     const edges: Edge[] = [];
 
-    nodes.push(...positionWinnerBracketMatches(winnerMatches, nodes));
-    nodes.push(...positionLoserBracketMatches(loserMatches, nodes));
-    nodes.push(...positionFinalMatches(finalMatches, loserMatches, winnerMatches));
+    nodes.push(
+      ...positionWinnerBracketMatches(winnerMatches, nodes),
+      ...positionLoserBracketMatches(loserMatches, nodes),
+      ...positionFinalMatches(finalMatches, loserMatches, winnerMatches)
+    );
 
-    edges.push(...makeEdgesForWinners(matches));
-    edges.push(...makeEdgesForLosers(matches));
-    edges.push(...makeEdgesForFinals(matches));
+    edges.push(...makeEdgesForWinners(matches), ...makeEdgesForLosers(matches), ...makeEdgesForFinals(matches));
 
     setNodes(nodes);
     setEdges(edges);
