@@ -5,19 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components';
 
 type MatchPopupProps = {
   match: Match;
-  position: { x: number; y: number };
 };
 
-export function MatchPopup({ match, position }: MatchPopupProps) {
+export function MatchPopup({ match,  }: MatchPopupProps) {
   const { round, matchNumber, team1, team2, result, bracket, date, time } = match;
 
   return (
-    <Card
-      className="absolute z-50 w-[300px]"
-      style={{
-        left: position.x,
-        top: position.y
-      }}>
+    <Card className="z-50 w-[300px]">
       <CardHeader>
         <CardTitle className="text-lg">
           {bracket.charAt(0).toUpperCase() + bracket.slice(1)} Bracket - Round {round}

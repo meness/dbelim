@@ -93,8 +93,10 @@
     "lockb",
     "nextui",
     "packagejson",
+    "pannable",
     "reactflow",
-    "xyflow"
+    "xyflow",
+    "zoomable"
   ],
   "css.validate": false,
   "editor.autoClosingQuotes": "always",

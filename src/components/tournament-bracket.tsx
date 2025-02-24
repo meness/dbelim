@@ -10,7 +10,17 @@ import {
   positionWinnerBracketMatches
 } from '@/helpers';
 import { mockedMatches } from '@/mock/data';
-import { type Edge, MiniMap, type Node, type NodeTypes, ReactFlow, useEdgesState, useNodesState } from '@xyflow/react';
+import {
+  type Edge,
+  MiniMap,
+  type Node,
+  NodeToolbar,
+  type NodeTypes,
+  Position,
+  ReactFlow,
+  useEdgesState,
+  useNodesState
+} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useEffect, useState } from 'react';
 import { MatchCard } from './match-card';
@@ -23,7 +33,7 @@ const nodeTypes: NodeTypes = {
 export const TournamentBracket = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-  const [hoveredMatch, setHoveredMatch] = useState<Match | null>(null);
+  const [activeMatch, setActiveMatch] = useState<Match>();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const [matches] = useState<Match[]>(mockedMatches);
@@ -78,17 +88,23 @@ export const TournamentBracket = () => {
     const match = matches.find((m) => m.id === node.id);
 
     if (match) {
-      setHoveredMatch(match);
+      setActiveMatch(match);
       setMousePosition({ x: event.clientX + 10, y: event.clientY + 10 });
     }
   };
 
   const handleNodeMouseLeave = () => {
-    setHoveredMatch(null);
+    setActiveMatch(undefined);
   };
 
   return (
     <div className="h-screen w-full">
+      <NodeToolbar
+        isVisible={!!activeMatch}
+        position={Position.Right}
+        nodeId={activeMatch?.id}>
+        <MatchPopup match={activeMatch!} />
+      </NodeToolbar>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -104,14 +120,11 @@ export const TournamentBracket = () => {
         fitView
         minZoom={0.5}
         maxZoom={1.5}>
-        <MiniMap />
-      </ReactFlow>
-      {hoveredMatch && (
-        <MatchPopup
-          match={hoveredMatch}
-          position={mousePosition}
+        <MiniMap
+          pannable
+          zoomable
         />
-      )}
+      </ReactFlow>
     </div>
   );
 };
