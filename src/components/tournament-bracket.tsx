@@ -83,7 +83,7 @@ export const TournamentBracket = () => {
     updateLayout();
   }, [updateLayout]);
 
-  const handleNodeMouseEnter = (event: React.MouseEvent, node: Node) => {
+  const handleNodeMouseEnter = (_: React.MouseEvent, node: Node) => {
     const match = matches.find((m) => m.id === node.id);
 
     if (match) {
