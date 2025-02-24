@@ -37,10 +37,12 @@ export const MatchCard = memo(({ data }: MatchCardProps) => {
           </div>
         )}
       </CardContent>
-      <Handle
-        type="target"
-        position={Position.Left}
-      />
+      {data.round !== 1 && (
+        <Handle
+          type="target"
+          position={Position.Left}
+        />
+      )}
       {bracket !== 'final' && (
         <Handle
           type="source"
