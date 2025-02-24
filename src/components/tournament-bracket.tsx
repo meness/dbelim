@@ -96,7 +96,7 @@ export const TournamentBracket = () => {
   };
 
   return (
-    <div className="h-screen w-full">
+    <>
       <NodeToolbar
         isVisible={!!activeMatch}
         position={Position.Right}
@@ -123,6 +123,6 @@ export const TournamentBracket = () => {
           zoomable
         />
       </ReactFlow>
-    </div>
+    </>
   );
 };
