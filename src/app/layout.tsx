@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description: 'Sample double elimination bracket using React Flow.'
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en">
       <body>
@@ -19,4 +19,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

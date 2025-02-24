@@ -7,7 +7,7 @@ type MatchPopupProps = {
   match: Match;
 };
 
-export function MatchPopup({ match,  }: MatchPopupProps) {
+export const MatchPopup = ({ match }: MatchPopupProps) => {
   const { round, matchNumber, team1, team2, result, bracket, date, time } = match;
 
   return (
@@ -44,4 +44,4 @@ export function MatchPopup({ match,  }: MatchPopupProps) {
       </CardContent>
     </Card>
   );
-}
+};
