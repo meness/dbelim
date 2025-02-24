@@ -34,7 +34,6 @@ export const TournamentBracket = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [activeMatch, setActiveMatch] = useState<Match>();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const [matches] = useState<Match[]>(mockedMatches);
 
@@ -89,7 +88,6 @@ export const TournamentBracket = () => {
 
     if (match) {
       setActiveMatch(match);
-      setMousePosition({ x: event.clientX + 10, y: event.clientY + 10 });
     }
   };
 
