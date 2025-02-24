@@ -4,9 +4,16 @@ import { ConnectionLineType, Edge, Node } from '@xyflow/react';
 const BRACKET_SEPARATOR = 200;
 const VERTICAL_SPACING = 180;
 const HORIZONTAL_SPACING = 300;
-// FIX Determine final rounds programmatically
-const FINAL_WINNERS_ROUND = 3;
-const FINAL_LOSERS_ROUND = 4;
+
+export const calculateFinalWinnersRound = () => {
+  // FIX Determine final rounds programmatically
+  return 3;
+};
+
+export const calculateFinalLosersRound = () => {
+  // FIX Determine final rounds programmatically
+  return 4;
+};
 
 export const makeEdgesForWinners = (matches: Match[]) => {
   const edges: Edge[] = [];
@@ -69,8 +76,12 @@ export const makeEdgesForLosers = (matches: Match[]) => {
 export const makeEdgesForFinals = (matches: Match[]) => {
   const edges: Edge[] = [];
 
-  const winnersFinal = matches.find((match) => match.bracket === 'winners' && match.round === FINAL_WINNERS_ROUND);
-  const losersFinal = matches.find((match) => match.bracket === 'losers' && match.round === FINAL_LOSERS_ROUND);
+  const winnersFinal = matches.find(
+    (match) => match.bracket === 'winners' && match.round === calculateFinalWinnersRound()
+  );
+  const losersFinal = matches.find(
+    (match) => match.bracket === 'losers' && match.round === calculateFinalLosersRound()
+  );
   const grandFinal = matches.find((match) => match.bracket === 'final');
 
   if (winnersFinal && grandFinal) {
