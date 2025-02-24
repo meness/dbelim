@@ -2,6 +2,9 @@
 
 import type { Match } from '@/common/types/type';
 import {
+  filterFinalMatches,
+  filterLoserMatches,
+  filterWinnerMatches,
   makeEdgesForFinals,
   makeEdgesForLosers,
   makeEdgesForWinners,
@@ -39,29 +42,9 @@ export const TournamentBracket = () => {
 
   const updateLayout = useCallback(() => {
     // Group matches by bracket and round
-    const winnerMatches = matches
-      .filter((match) => match.bracket === 'winners')
-      .reduce(
-        (acc, match) => {
-          acc[match.round] = acc[match.round] || [];
-          acc[match.round].push(match);
-          return acc;
-        },
-        {} as Record<number, Match[]>
-      );
-
-    const loserMatches = matches
-      .filter((match) => match.bracket === 'losers')
-      .reduce(
-        (acc, match) => {
-          acc[match.round] = acc[match.round] || [];
-          acc[match.round].push(match);
-          return acc;
-        },
-        {} as Record<number, Match[]>
-      );
-
-    const finalMatches = matches.filter((match) => match.bracket === 'final');
+    const winnerMatches = filterWinnerMatches(matches);
+    const loserMatches = filterLoserMatches(matches);
+    const finalMatches = filterFinalMatches(matches);
 
     // Create nodes with fixed positions
     const nodes: Node[] = [];
@@ -77,14 +60,14 @@ export const TournamentBracket = () => {
 
     setNodes(nodes);
     setEdges(edges);
-  }, [matches, setNodes, setEdges]);
+  }, [matches]);
 
   useEffect(() => {
     updateLayout();
   }, [updateLayout]);
 
   const handleNodeMouseEnter = (_: React.MouseEvent, node: Node) => {
-    const match = matches.find((m) => m.id === node.id);
+    const match = matches.find((match) => match.id === node.id);
 
     if (match) {
       setActiveMatch(match);

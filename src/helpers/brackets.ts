@@ -13,19 +13,19 @@ export const makeEdgesForWinners = (matches: Match[]) => {
 
   matches
     .filter((match) => match.bracket === 'winners')
-    .forEach((match) => {
-      if (match.result?.completed) {
+    .forEach((winnerMatch) => {
+      if (winnerMatch.result?.completed) {
         const nextWinnerMatch = matches.find(
-          (m) =>
-            m.bracket === 'winners' &&
-            m.round === match.round + 1 &&
-            (m.team1?.id === match.result?.winner || m.team2?.id === match.result?.winner)
+          (match) =>
+            match.bracket === 'winners' &&
+            match.round === winnerMatch.round + 1 &&
+            (match.team1?.id === winnerMatch.result?.winner || match.team2?.id === winnerMatch.result?.winner)
         );
 
         if (nextWinnerMatch) {
           edges.push({
-            id: `e${match.id}-${nextWinnerMatch.id}`,
-            source: match.id,
+            id: `e${winnerMatch.id}-${nextWinnerMatch.id}`,
+            source: winnerMatch.id,
             target: nextWinnerMatch.id,
             type: ConnectionLineType.SmoothStep,
             style: { stroke: '#22c55e' }
@@ -42,19 +42,19 @@ export const makeEdgesForLosers = (matches: Match[]) => {
 
   matches
     .filter((match) => match.bracket === 'losers')
-    .forEach((match) => {
-      if (match.result?.completed) {
+    .forEach((loserMatch) => {
+      if (loserMatch.result?.completed) {
         const nextLoserMatch = matches.find(
-          (m) =>
-            m.bracket === 'losers' &&
-            m.round === match.round + 1 &&
-            (m.team1?.id === match.result?.winner || m.team2?.id === match.result?.winner)
+          (match) =>
+            match.bracket === 'losers' &&
+            match.round === loserMatch.round + 1 &&
+            (match.team1?.id === loserMatch.result?.winner || match.team2?.id === loserMatch.result?.winner)
         );
 
         if (nextLoserMatch) {
           edges.push({
-            id: `e${match.id}-${nextLoserMatch.id}`,
-            source: match.id,
+            id: `e${loserMatch.id}-${nextLoserMatch.id}`,
+            source: loserMatch.id,
             target: nextLoserMatch.id,
             type: ConnectionLineType.SmoothStep,
             style: { stroke: '#ef4444' }
@@ -195,4 +195,34 @@ export const positionFinalMatches = (
   });
 
   return output;
+};
+
+export const filterLoserMatches = (matches: Match[]) => {
+  return matches
+    .filter((match) => match.bracket === 'losers')
+    .reduce(
+      (acc, match) => {
+        acc[match.round] = acc[match.round] || [];
+        acc[match.round].push(match);
+        return acc;
+      },
+      {} as Record<number, Match[]>
+    );
+};
+
+export const filterWinnerMatches = (matches: Match[]) => {
+  return matches
+    .filter((match) => match.bracket === 'winners')
+    .reduce(
+      (acc, match) => {
+        acc[match.round] = acc[match.round] || [];
+        acc[match.round].push(match);
+        return acc;
+      },
+      {} as Record<number, Match[]>
+    );
+};
+
+export const filterFinalMatches = (matches: Match[]) => {
+  return matches.filter((match) => match.bracket === 'final');
 };
